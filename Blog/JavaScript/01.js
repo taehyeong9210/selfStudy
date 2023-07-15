@@ -75,4 +75,40 @@
 // }
 
 // 객체
+// const arr = ['가', '라', '다', '라', '마', '라'];
+// let index = arr.indexOf('라');
+// while ( index > -1) {
+//     arr.splice(index,1);
+//     index = arr.indexOf('라');
+// }
+// console.log(arr);
+// console.log(index);
 
+// const arr = ['가', '라', '다', '라', '마', '라'];
+
+// const newArr = [];
+// for (let i=0; i<=arr.length-1; i++){
+//     if (arr[i] !== '라') {
+//         newArr.push(arr[i]);
+//     }
+// }
+// console.log(newArr);
+
+// every.splice(1, 0,'a', 'v');
+// console.log(every);
+// console.log(every.indexOf("가"));
+
+// 함수
+// const Multi = (x, y, z) => {
+//     return z*y*z;
+// }
+// console.log(Multi(2,3,2));
+
+//객체 리터럴
+// const me = {
+//     name : {first :'테형',
+//             last : '김',},
+//     gender : 'M',
+// }
+
+// console.log(me.name.last);
