@@ -4,6 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>끝말잇기</title>
+    <style>
+        body {
+            width : 200px;
+            margin: 250px auto;
+            text-align: center;
+            
+        }
+        div {
+            padding : 10px 30px;
+            
+        }
+        input { 
+            font-size: 15px;
+            width :auto;
+            height: 30px;
+            border :2px solid black;
+            text-align: center;
+        }
+        button {
+            margin : 10px auto;
+            width :200px;
+            height : 40px;
+            background-color: burlywood;
+            border : none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        button:active {
+            background-color: darkolivegreen;
+            color:white;
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -16,6 +48,7 @@
 <button>입력</button>
 <script>
     const playerNum = Number(prompt('몇 명이서 play하시나요?'));
+    if ( playerNum) {
     const $input = document.querySelector('input');
     const $button = document.querySelector('button');
     const $word = document.querySelector('#word');
@@ -25,6 +58,7 @@
     
     // 버튼 클릭 함수
     const onClickButton = () => {
+        if (newWord.length ===3 ){
         if (!word || word[word.length-1] === newWord[0]) {
             word = newWord; // 입력한 단어가 제시어가 된다.
             $word.textContent = word; // 화면에 제시어 표시
@@ -43,17 +77,24 @@
                 word='';
                 $word.textContent='';
             }
+        }else {
+            alert('3글자로 해주세요!');
+            $input.value = '';
+            $input.focus();
+
         }
+    }
     
     // 인풋 작성 함수
     const onInput = (event) => {
-        newWord = event.target.value; // 입력한 단어를 현재 단어로
+        newWord = event.target.value;
+         // 입력한 단어를 현재 단어로
     }
 
     // 이벤트 적용
     $button.addEventListener('click', onClickButton);
     $input.addEventListener('input', onInput);
-    
+}
 </script>
 </body>
 </html>
