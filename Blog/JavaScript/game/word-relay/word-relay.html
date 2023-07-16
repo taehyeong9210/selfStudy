@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>끝말잇기</title>
+    <title>3글자 끝말잇기</title>
     <style>
         body {
             width : 200px;
             margin: 250px auto;
             text-align: center;
+            background-color: rgb(64, 51, 51);
             
         }
         div {
             padding : 10px 30px;
-            
+            background-color: white;
         }
+
+        .borderLine {
+            width:  200px;
+            height: 200px;
+            border : 4px solid red;
+        }
+            
+
         input { 
             font-size: 15px;
             width :auto;
@@ -38,6 +47,7 @@
     </style>
 </head>
 <body>
+<div class="borderLine">
 <div>
     <span id='order'>1</span>번째 참가자
 </div>
@@ -46,9 +56,10 @@
 </div>
 <input type="text">
 <button>입력</button>
+</div>
 <script>
     const playerNum = Number(prompt('몇 명이서 play하시나요?'));
-    if ( playerNum) {
+    if ( playerNum) { // 숫자를 입력했을 때
     const $input = document.querySelector('input');
     const $button = document.querySelector('button');
     const $word = document.querySelector('#word');
@@ -70,14 +81,14 @@
                 }
                 $input.value = '';
                 $input.focus();
-            }else {
+            }else { // 오답 시 처리
                 alert("땡!");
                 $input.value = '';
                 $input.focus();
                 word='';
                 $word.textContent='';
             }
-        }else {
+        }else { // 3글자가 아닐 시
             alert('3글자로 해주세요!');
             $input.value = '';
             $input.focus();
