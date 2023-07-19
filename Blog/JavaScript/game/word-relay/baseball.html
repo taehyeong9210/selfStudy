@@ -12,9 +12,24 @@
     </form>
     <div id="logs"></div>
     <script>
+        // 정보 취득
         const $form = document.querySelector('#form');
         const $input = document.querySelector('#input');
         const $logs = document.querySelector('#logs');
+
+        // 숫자뽑기
+        const numbers = [];
+        for ( let n = 1; n <= 9; n++){
+            numbers.push(n); // 1~9 배열 저장
+        };
+
+        const answer = [];
+        for (let n = 0; n <= 3; n++) {
+            const index = Math.floor(Math.random() * numbers.length);
+            answer.push(numbers[index]); //4개 임의의 숫자 뽑기
+            numbers.splice(index, 1); // 겹치지 않도록 numbers 배열에서 뽑은 숫자 삭제
+        }
+        console.log(answer);
     </script>
 </body>
 </html>
