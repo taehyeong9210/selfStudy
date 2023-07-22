@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 야구</title>
+</head>
+<body>
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs"></div>
+    <script>
+        // 정보 취득
+        const $form = document.querySelector('#form');
+        const $input = document.querySelector('#input');
+        const $logs = document.querySelector('#logs');
+
+        // 숫자뽑기
+        const numbers = [];
+        for ( let n = 1; n <= 9; n++){
+            numbers.push(n); // 1~9 배열 저장
+        };
+
+        const answer = [];
+        for (let n = 0; n <= 3; n++) {
+            const index = Math.floor(Math.random() * numbers.length);
+            answer.push(numbers[index]); //4개 임의의 숫자 뽑기
+            numbers.splice(index, 1); // 겹치지 않도록 numbers 배열에서 뽑은 숫자 삭제
+        }
+        console.log(answer);
+
+        const tries = [];
+        function checkInput (input) { // 오류 검증
+            if ( input.length !== 4) {
+                return alert('4자리 숫자를 입력하세요.');
+            }
+            if ( new Set(input).size !== 4) {
+                return alert('중복되지 않게 해주세요');
+            }
+            if (tries.includes(input)) {
+                return alert('이미 시도한 값입니다.')
+            }
+            return true;
+        }
+        let out = 0;
+        $form.addEventListener('submit', (event) => { // 숫자 검증
+            event.preventDefault();
+            const value = $input.value;
+            $input.value = '';
+            const valid = checkInput(value);
+            
+            if (!valid) {
+                return;
+            }
+            if (answer.join('') === value) {
+                $logs.textContent='홈런!';
+                return;
+            }
+            if (tries.length >= 9) {
+                const message = document.createTextNode(`패배! 정답은 ${answer.join('')}입니다. `)
+                $logs.appendChild(message);
+                return;
+            }
+        let strike = 0;
+        let ball = 0;
+        
+
+        
+        answer.forEach((number, aindex) => {
+    const index = value.indexOf(String(number));
+    if (index > -1) {
+        if (index === aindex) {
+            strike += 1;
+        } else {
+            ball += 1;
+        }
+    } 
+    });
+    if (strike === 0 && ball === 0) {
+        out += 1;
+    }
+
+
+        $logs.append(`${value} : ${strike} 스트라이크 ${ball} 볼 ${out} 아웃`,document.createElement('br'));
+        tries.push(value);
+    })
+    </script>
+</body>
+</html>
