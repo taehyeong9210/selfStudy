@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응속도 테스터</title>
+    <style>
+        #screen {
+            width : 300px;
+            height : 200px;
+            text-align: center;
+            user-select: none;
+        }
+        #screen.waiting {
+            background-color: aqua;
+        }
+        #screen.ready {
+            background-color: red;
+            color: white;
+        }
+        #screen.now {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen" class="waiting">클릭해서 시작하세요.</div>
+    <div id="result"></div>
+    <script>
+        const $screen = document.querySelector('#screen');
+        const $result = document.querySelector('#result');
+
+        let startTime;  // 시작시간
+        let endTime;    // 종료시간
+        const record = [];
+        let timeOutId;
+        let bestFive = [];
+
+        $screen.addEventListener('click', function () {     // 첫번째 클릭
+            if ($screen.classList.contains('waiting')) {
+                $screen.classList.replace('waiting', 'ready');  // 클래스 수정
+                $screen.textContent = '초록색이 되면 클릭하세요';
+                TimeOutId = setTimeout(function () {
+                    startTime = new Date(); 
+                    $screen.classList.replace('ready', 'now');
+                    $screen.textContent = '지금 클릭하세요!';
+                }, Math.floor(Math.random() * 1000 + 2000)
+                )
+            }else if ($screen.classList.contains('ready')) {    // 예상 클릭 방지
+                clearTimeout(timeOutId);
+                $screen.classList.replace('ready', 'waiting');
+                $screen.textContent = '너무 성급하군요';
+            }else if ($screen.classList.contains('now')) {  // 결과
+                endTime = new Date();
+                const current = endTime - startTime;
+                bestFive.push(current);
+                if (bestFive.length > 5) {  // 상위 5개 저장
+                    let maxNumber = Math.max(...bestFive);
+                    let maxIndex = bestFive.indexOf(maxNumber);
+                    if (maxIndex !== -1) {
+                        bestFive.splice(maxIndex, 1)
+                    }
+                }
+                $result.textContent = `현재 ${current}ms`
+                $result.append(document.createElement('h2'),`Best5`)
+                bestFive.forEach((value, index) => {    // 상위 5개 표시
+                $result.append(
+                    document.createElement('br'),                    
+                    `${bestFive[index]}`
+                )}
+                )
+                
+                // const current = endTime - startTime;
+                // record.push(current);
+                // const average =  record.reduce((a, c) => a +c ) /record.length; 
+                // $result.textContent = `현재 ${current}ms, 평균 ${average}ms`;
+                startTime = null;
+                endTime = null;
+                $screen.classList.replace('now', 'waiting');
+                $screen.textContent = '클릭해서 시작하세요.'
+            }
+        })
+    </script>
+</body>
+</html>

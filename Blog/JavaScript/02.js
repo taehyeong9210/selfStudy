@@ -30,7 +30,11 @@
 //         }
 
 // setTimeout
-setTimeout(()=>{
-    console.log('hello');
-},3500);
+// setTimeout(()=>{
+//     console.log('hello');
+// },3500);
        
+// date
+// const one = new Date(2022, 1, 21);
+// const two = new Date(2022, 2, 3);
+// console.log(two - one); //밀리초 단위로 표시

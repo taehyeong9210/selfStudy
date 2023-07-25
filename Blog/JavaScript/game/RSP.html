@@ -51,12 +51,43 @@
             
         }  
        let intervalId = setInterval(changeComputerHand, 50);
+       const scoreTable = { // 승리시 2 혹은 -1, 패배시 -2 혹은 1
+        rock : 0,
+        scissors : 1,
+        paper : -1,
+       }
        let clickable = true;
+       let score = 0;
+       let comScore = 0;
+
        const clickButton = () => {
         if (clickable) {
         clearInterval(intervalId);
         clickable = false;
-        setTimeout(()=>{
+        const myChoice = event.target.textContent === '바위' ? 'rock' : 
+                event.target.textContent === '가위' ? 'scissors' : 'paper'
+            const myScore = scoreTable[myChoice];
+            const computerScore = scoreTable[computerChoice];
+            const diff = myScore - computerScore;
+            let message;
+            if ( diff === 2 || diff === -1 ) {
+                score += 1;
+                comScore -= 1;
+                message = '승리';
+            } else if ( diff === -2 || diff === 1) {
+                score -= 1;
+                comScore += 1;
+                message = '패배';
+                } else {
+                    message = '무승부';
+                }
+            $score.textContent = `나의 점수 ${score}점, 상대 점수${comScore}`;
+            if(score >= 3 || comScore >= 3 ) {
+                clickable =false;
+                clearTimeout(endGame);
+                
+            }
+        let endGame = setTimeout(()=>{
             clickable = true;
             intervalId = setInterval(changeComputerHand, 50);
             }, 1000);
@@ -65,7 +96,7 @@
         $rock.addEventListener('click', clickButton);
         $scissors.addEventListener('click', clickButton);
         $paper.addEventListener('click', clickButton);
-       
+        
     </script>
 </body>
 </html>
