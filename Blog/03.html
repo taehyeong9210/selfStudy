@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연습장</title>
+</head>
+<body>
+    <div>
+        <button>클릭</button>
+    </div>
+    <script>
+        const Fn1 = (event) => {
+           console.log('주의');
+        }
+        const $div = document.querySelector('div');
+        $div.addEventListener('click', Fn1);
+    </script>
+</body>
+</html>

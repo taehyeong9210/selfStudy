@@ -33,8 +33,23 @@
 // setTimeout(()=>{
 //     console.log('hello');
 // },3500);
-       
+
 // date
 // const one = new Date(2022, 1, 21);
 // const two = new Date(2022, 2, 3);
 // console.log(two - one); //밀리초 단위로 표시
+
+// 이차원 배열
+// const arr = [];
+// for ( let i = 1; i <= 5; i++) {
+//     const innerArr = [];
+//     for (let j = 1; j <= 5; j++) {
+//         innerArr.push(1);
+//     } arr.push(innerArr);
+// }
+// console.log(arr);
+
+// every
+const arr = [1, 'hello', null, undefined, false];
+const everyArr = arr.every(arr.indexOf(null));
+console.log(everyArr);
