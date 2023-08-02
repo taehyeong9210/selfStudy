@@ -50,6 +50,39 @@
 // console.log(arr);
 
 // every
-const arr = [1, 'hello', null, undefined, false];
-const everyArr = arr.every(arr.indexOf(null));
-console.log(everyArr);
+// const arr = [1, 'hello', null, undefined, false];
+// const everyArr = arr.every(arr.indexOf(null));
+// console.log(everyArr);
+
+// 깊은 복사
+// const a = 'b';
+// const c = ['d', true, 1];
+// const e = {g: 'h'};
+// const i = [{j : 'k', l: 'm'}];
+
+// 얕은 복사, 깊은 복사
+// 얕은 복사는 껍데기 배열은 복사, 내부 객체는 참조(하나를 바꾸면 다른 하나도 바뀜)
+// 깊은 복사는 모든 참조가 끊기고 복사(하나를 바꿔도 다른 하나에 영향이 없음)
+// 원시값은 참조가 없음
+// const copy = JSON.parse(JSON.stringify(c));
+// copy[0]= 1;
+// console.log(copy);
+// console.log(c);
+
+// this는 객체안에서는 객체 자신(객체.메서드), 일반적으로는 window
+// 화살표 함수 내 this는 의도와 다르게 작동할 수 있다.따라서 화살표 함수 내에서는 this를 지양하자.
+
+// document.addEventListener('click', function() {
+//     console.log(this);
+// })
+// const fn = () =>{
+//     return console.log('hi');
+// };
+
+// const fn2 = fn();
+// fn2();
+
+let a = [1, 2, 3];
+let c = [4, 5];
+let b = a.concat(c)
+console.log(b);
