@@ -42,20 +42,27 @@
 <body>
     <div id="wrapper"></div>
     <script>
+        const total = parseInt(prompt('몇개의 카드로 진행할까요?'));
         const $wrapper = document.querySelector('#wrapper');
-
-        const total = 12;
+        
+     
+        // 변수 선언
+        // const total = 12;   
         const colors = ['red', 'orange', 'yellow', 'green', 'white', 'pink'];
         let colorCopy = colors.concat(colors);
         let shuffled=[];
+        let clicked=[];
+        let completed=[];
+        let clickable = false;
 
+        // 카드 섞기
         function shuffle () {
             for (let i = 0; colorCopy.length > 0; i++) {
                 const randomIndex = Math.floor(Math.random()*colorCopy.length);
                 shuffled = shuffled.concat(colorCopy.splice(randomIndex, 1));
             }
         }
-
+        // 카드 생성
         function createCard (i) {
             const card = document.createElement('div');
             card.className = 'card';
@@ -72,10 +79,56 @@
             
             return card;
         }
+        // 카드 클릭
+        function onClickcard () {
+            if(!clickable || completed.includes(this) || clicked[0] === this) { // 버그 해결 
+                return;
+            }
+            this.classList.toggle('flipped');
+            clicked.push(this);
+            if (clicked.length !== 2) {
+                return;
+            }
+            const firstBackColor = clicked[0].querySelector('.card-back').style.backgroundColor;
+            const secondBackColor = clicked[1].querySelector('.card-back').style.backgroundColor;
+                if (firstBackColor === secondBackColor) {
+                    completed.push(clicked[0]);
+                    completed.push(clicked[1]);              
+                    clicked=[];      
+                    if (completed.length != total) {
+                        return;
+                    }
+                    const endTime = new Date();
+                    setTimeout(()=>{
+                    alert(`축하합니다. ${(endTime - startTime) / 1000}초`);
+                    resetGame();
+                     }, 1000);
+                     
+                    return;
+                } 
+            clickable=false;
+            setTimeout(()=>{
+            clicked[0].classList.remove('flipped');
+            clicked[1].classList.remove('flipped');
+            clicked=[]; 
+            clickable =true;
+        }, 1000);
+        }
+        // 게임 재시작
+        function resetGame () {
+            $wrapper.innerHTML='';
+            colorCopy=colors.concat(colors);
+            shuffled=[];
+            completed=[];
+            clickable = false;
+            gameStart();
+        }
+        // 게임 시작
         function gameStart () {
             shuffle();
             for ( let i = 0; i < total; i++ ) {
                 const card = createCard(i);
+                card.addEventListener('click', onClickcard);
                 $wrapper.appendChild(card);
             }
 
@@ -88,7 +141,10 @@
             setTimeout(()=>{
                 document.querySelectorAll('.card').forEach((card)=>{
                     card.classList.remove('flipped');
-                })
+                });
+                clickable = true;
+                startTime = new Date();
+
             }, 5000);
         }
         gameStart();
