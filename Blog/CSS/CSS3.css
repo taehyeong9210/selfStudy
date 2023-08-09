@@ -16,6 +16,9 @@ body {
     background-color: aqua;
     text-align: center;
     line-height: 100px;
+    border : 4px dotted black;
+    background-clip: border-box;
+    padding : 10px 10px;
 }
 .box2 {
     width : 100px;
@@ -23,4 +26,19 @@ body {
     background-color: red;
     text-align: center;
     line-height: 100px;
+    padding : 10px 10px;
+    border : 4px dotted black;
+    background-clip: content-box;
+
+}
+
+.box3 {
+    width : 100px;
+    height :100px;
+    background-color: blue;
+    text-align: center;
+    line-height: 100px;
+    border : 4px dotted black;
+    background-clip: padding-box;
+    padding : 10px 10px;
 }
