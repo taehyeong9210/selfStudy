@@ -87,6 +87,14 @@
 // let b = a.concat(c)
 // console.log(b);
 
+// function a () {
+//     b();
+// }
+// function b () {
+//     console.trace();
+// }
+// a();
+
 function aaa () {
     setTimeout(() => {
         console.log('d');
