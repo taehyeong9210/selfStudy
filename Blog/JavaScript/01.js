@@ -111,4 +111,10 @@
 //     gender : 'M',
 // }
 
-// console.log(me.name.last);
+// console.log(me.name.last);\
+
+// const str = '1423';
+// const b = str.split('').map((i, index) => {
+//     return i * 2
+// }).join('');
+// console.log(b);
