@@ -5,9 +5,9 @@
 // A.forEach((number, Index) => {
 //     const text = b.indexOf(String(number));
 //     if (text > -1 ) {
-//         console.log(` text = ${text}, index = ${Index}`);       
-//     } 
-// }) 
+//         console.log(` text = ${text}, index = ${Index}`);
+//     }
+// })
 
 // forEach 이해
 // const array = [1, 3, 5, 7];
@@ -112,14 +112,16 @@
 //     console.log('b')
 // }, 0);
 
-const candidate = Array(45).fill().map((v, i) => i+1);
+const candidate = Array(45)
+  .fill()
+  .map((v, i) => i + 1);
 
 const shuffle = [];
 
 while (candidate.length > 0) {
-const random = Math.floor(Math.random()*candidate.length);
-const spliceArray = candidate.splice(random,1);
-const value = spliceArray[0];
-shuffle.push(value);
-};
+  const random = Math.floor(Math.random() * candidate.length);
+  const spliceArray = candidate.splice(random, 1);
+  const value = spliceArray[0];
+  shuffle.push(value);
+}
 console.log(shuffle);
