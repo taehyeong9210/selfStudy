@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <title>Web Animations examples</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="tabzilla.css" type="text/css">
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <script src="main.js"></script>
+</head>
+<body class="index">
+    <div class="page-wrapper">
+        <aside class="burger"><!-- hamburger menu -->
+            <button type="button">
+                <img src="images/burger.svg" width="32" height="32">
+            </button>
+        </aside><!-- burger -->
+        <aside class="view-source">
+            <a href="#" class="button" target="_blank">View Code</a>
+        </aside><!-- view source button -->
+        <aside class="sidebar">
+            <aside id="tabzilla"><a href="https://www.mozilla.org/">Mozilla</a></aside>
+            <h1>Web Animations</h1>
+            <p class="tagline"><a target="viewer" href="gallery.html">Home</a></p>
+            <nav class="menu"><ul>
+                <li><a target="viewer" href="demos/style-guide.html">Demo: style guide</a></li>
+                <li><a target="viewer" href="demos/accessibility.html">Demo: accessibility settings</a></li>
+                <li><a target="viewer" href="demos/js-animations-vs-web-animations.html">Performance comparison (vs JS)</a></li>
+                <li><a target="viewer" href="demos/css-vs-animations-code.html">Source code comparison (vs CSS)</a></li>
+            </ul></nav>
+            <p><a class="button" download href="https://github.com/mozdevs/Animation-examples/archive/gh-pages.zip">Download these demos</a></p>
+            <p><a href="https://github.com/mozdevs/Animation-examples">
+                <img src="images/github.png" width="32" height="32"><br>Fork this on Github!</a></p>
+        </aside>
+        <main class="viewer-wrapper">
+            <iframe class="viewer" src="gallery.html" allowfullscreen name="viewer"></iframe>
+        </main>
+    </div><!-- page wrapper -->
+</body>
+</html>

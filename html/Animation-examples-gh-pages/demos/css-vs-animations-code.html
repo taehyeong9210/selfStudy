@@ -1,0 +1,190 @@
+<!doctype html>
+<head>
+    <title>Web Animations Example - CSS vs Web Animations code comparison</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="lib/prism.css">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+    .css-btn-events {
+        transform: scale(1);
+        transition: all 0.5s;
+    }
+    .css-btn-events:hover {
+        transform: scale(1.20);
+    }
+
+    .rainbow, .anim-rainbow {
+        background: #ff004d;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .rainbow {
+        animation: rainbow 2s alternate infinite;
+    }
+
+    @keyframes rainbow {
+        0% { background: #ff004d; }
+        20% { background: #ff77ab; }
+        50% { background: #00e756; }
+        80% { background: #29adff; }
+        100% { background: #ff77ab;}
+    }
+
+    .animations {
+        border-top: 2px solid var(--shadow);
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+    <main class="constrained">
+        <h1>Comparing CSS and Web Animations</h1>
+        <p>This is a comparison between CSS code and JavaScript code that use the Web Animations API to achieve the same effects. If you are already familiar with defining CSS animations, you will feel right at home with the Web Animations API.</p>
+        <article class="panel">
+            <header><h2>Looped color animation</h2></header>
+            <section class="css">
+                <h3>CSS</h3>
+                <section class="demo">
+                    <button type="button" class="rainbow">Hi</button>
+                </section>
+                <section class="source">
+<pre><code class="lang-css">.rainbow {
+    animation: rainbow 2s alternate infinite;
+}
+
+@keyframes rainbow {
+    0% { background: #ff004d; }
+    20% { background: #ff77ab; }
+    50% { background: #00e756; }
+    80% { background: #29adff; }
+    100% { background: #ff77ab;}
+}
+</code></pre>
+                </section>
+            </section><!-- css -->
+            <section class="animations">
+                <h3>Web Animations API</h3>
+                <section class="demo">
+                    <button type="button" class="anim-rainbow">Hi</button>
+                </section>
+                <section class="source">
+<pre><code class="lang-css">let el = document.querySelector('.rainbow');
+el.animate([
+    { background: '#ff004d', offset: 0 },
+    { background: '#ff77ab', offset: 0.20 },
+    { background: '#00e756', offset: 0.5 },
+    { background: '#29adff', offset: 0.80 },
+    { background: '#ff77ab', offset: 1 }
+], {
+    duration: 2000,
+    direction: 'alternate',
+    iterations: Infinity
+});
+</code></pre>
+                </section>
+            </section><!-- animations -->
+        </article><!-- looped animation -->
+
+        <article class="panel">
+            <header><h2>Linear transform with user events</h2></header>
+            <section class="css">
+                <h3>CSS</h3>
+                <section class="demo">
+                    <p>
+                        <button class="css-btn-events" type="button">Waka</button>
+                        Mouse over the button
+                    </p>
+                </section>
+                <section class="source">
+<pre><code class="lang-css">button {
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
+button:hover {
+    transform: scale(1.25);
+}
+</pre></code>
+            </section><!-- css -->
+            <section class="animations">
+                <h3>Web Animations API</h3>
+                <section class="demo">
+                    <p>
+                        <button class="anim-btn-events" type="button">Waka</button>
+                        Mouse over the button
+                    </p>
+                </section>
+                <section class="source">
+<pre><code class="lang-javascript">let el = document.querySelector('.animated');
+el.addEventListener('mouseover', function () {
+    let anim = el.animate({
+        transform: ['scale(1)', 'scale(1.25)']
+    }, 300);
+    el.style.transform = 'scale(1.25)';
+});
+el.addEventListener('mouseout', function () {
+    let anim = el.animate({
+        transform: ['scale(1.25)', 'scale(1)']
+    }, 300);
+    el.style.transform = '';
+});
+</pre></code>
+                </section>
+                <aside class="note"><p><strong>NOTE:</strong> Once the API implementation allows the use of implicit
+                    <code>from</code> values, we can fully mimick the CSS
+                    behaviour:</p>
+<pre><code class="lang-javascript">el.animate({
+    transform: ['scale(1.25)']
+}, 300);
+</code></pre>
+                </aside>
+            </section><!-- animations -->
+        </article>
+    </main>
+
+<script>
+function setupUserEventsTransform() {
+    let el = document.querySelector('.anim-btn-events');
+    el.addEventListener('mouseover', function () {
+        let anim = el.animate({
+            transform: ['scale(1)', 'scale(1.25)']
+        }, 300);
+        el.style.transform = 'scale(1.25)';
+    });
+    el.addEventListener('mouseout', function () {
+        let anim = el.animate({
+            transform: ['scale(1.25)', 'scale(1)']
+        }, 300);
+        el.style.transform = '';
+    });
+}
+
+function setupLoopedColor() {
+    let el = document.querySelector('.anim-rainbow');
+    el.animate([
+        { background: '#ff004d', offset: 0 },
+        { background: '#ff77ab', offset: 0.20 },
+        { background: '#00e756', offset: 0.5 },
+        { background: '#29adff', offset: 0.80 },
+        { background: '#ff77ab', offset: 1 }
+    ], {
+        duration: 2000,
+        direction: 'alternate',
+        iterations: Infinity
+    });
+}
+
+window.onload = function () {
+    setupUserEventsTransform();
+    setupLoopedColor();
+}
+</script>
+<script src="lib/prism.js"></script>
+</body>

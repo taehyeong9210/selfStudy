@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>책 검색</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        /* 스타일을 정의하는 CSS */
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #search-input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #search-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #book-results {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .book-result {
+            width: 200px;
+            /* 원하는 가로 크기 */
+            height: 300px;
+            /* 원하는 세로 크기 */
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .book-title {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="검색어를 입력하세요">
+        <button id="search-button">검색</button>
+    </div>
+    <div id="book-results"></div>
+    <script>
+        $(document).ready(function () {
+            $("#search-button").on('click', function () {
+                const bookName = $("#search-input").val();
+                $("#search-input").val('');
+
+                $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v3/search/book?target=title",
+                    data: { query: bookName },
+                    headers: { Authorization: 'KakaoAK 24cac96368f71d20926e0b34b6c2e488' },
+                })
+                    .done(function (msg) {
+                        displayResults(msg.documents); // 검색 결과 표시 함수 호출
+                    })
+                    .fail(function (xhr, status, error) {
+                        console.log(error);
+                    });
+            });
+
+            function displayResults(books) {
+                const $resultsContainer = $("#book-results");
+                $resultsContainer.empty();
+
+                if (books.length === 0) {
+                    $resultsContainer.append("<p>검색 결과가 없습니다.</p>");
+                    return;
+                }
+
+                for (const book of books) {
+                    const $bookResult = $("<div class='book-result'>");
+                    if (book.thumbnail) {
+                        $bookResult.append($("<img src='" + book.thumbnail + "' />"));
+                    }
+                    $bookResult.append($("<p class='book-title'>" + book.title + "</p>"));
+                    $resultsContainer.append($bookResult);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+<!-- <head>
+        <title>책 검색</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <style>
+            /* 스타일을 정의하는 CSS */
+            .search-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+    
+            #search-input {
+                padding: 10px;
+                width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+    
+            #search-button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            #book-results {
+                margin-top: 20px;
+                text-align: center;
+            }
+    
+            .book-result {
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="검색어를 입력하세요">
+            <button id="search-button">검색</button>
+        </div>
+        <div id="book-results"></div>
+        <script>
+            $(document).ready(function () {
+                $("#search-button").on('click', function () {
+                    const bookName = $("#search-input").val();
+                    $("#search-input").val('');
+    
+                    $.ajax({
+                        method: "GET",
+                        url: "https://dapi.kakao.com/v3/search/book?target=title",
+                        data: { query: bookName },
+                        headers: { Authorization: 'KakaoAK 24cac96368f71d20926e0b34b6c2e488' },
+                    })
+                        .done(function (msg) {
+                            displayResults(msg.documents);
+                        })
+                        .fail(function (xhr, status, error) {
+                            console.log(error);
+                        });
+                });
+    
+                function displayResults(books) {
+                    const $resultsContainer = $("#book-results");
+                    $resultsContainer.empty();
+    
+                    if (books.length === 0) {
+                        $resultsContainer.append("<p>검색 결과가 없습니다.</p>");
+                        return;
+                    }
+    
+                    for (const book of books) {
+                        const $bookResult = $("<div class='book-result'>");
+                        $bookResult.append($("<p><strong>" + book.title + "</strong></p>"));
+                        if (book.thumbnail) {
+                            $bookResult.append($("<img src='" + book.thumbnail + "' />"));
+                        }
+                        $resultsContainer.append($bookResult);
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html> -->
+
+
+
+
+
+
+<!-- <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 연습</title>
+</head>
+
+<body>
+
+    <p></p>
+    <input type="text" id="search-input">
+    <button id="search-button">검색</button>
+
+    <h1>연습할꺼야</h1>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () { // 문서가 준비된 후에 실행됨
+            $("#search-button").on('click', function () {
+                const bookName = $("#search-input").val();
+                $("#search-input").val('');
+            })
+        })
+
+
+        $.ajax({
+            method: "GET",
+            url: "https://dapi.kakao.com/v3/search/book?target=title",
+            data: { query: bookName },
+            headers: { Authorization: 'KakaoAK 24cac96368f71d20926e0b34b6c2e488' },
+        })
+            .done(function (msg) {
+                console.log(msg.documents[0].title);
+                console.log(msg.documents[0].thumbnail);
+                $("p").append($("<strong>" + msg.documents[0].title + "</strong>"));
+                $("p").append($("<img src='" + msg.documents[0].thumbnail + "' />"));
+            }); 
+    </script>
+</body>
+
+</html> -->

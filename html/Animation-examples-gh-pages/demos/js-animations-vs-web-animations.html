@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+	<head>
+		<title>JS Animations vs Web Animations</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../styles.css" type="text/css">
+		<script src="lib/Tween.js"></script>
+	</head>
+	<body>
+		<h1><button type="button" id="jsanims">JavaScript Animations</button> vs <button type="button" id="webanims">Web Animations</button></h1>
+		<main>
+			<div id="elements">
+			</div>
+		</main>
+		<script>
+			window.onload = function() {
+				var numElements = 300;
+				var elementsContainer = document.getElementById('elements');
+				var jsAnimsBtn = document.getElementById('jsanims');
+				var webAnimsBtn = document.getElementById('webanims');
+				var webAnimationsSupport = (window.Element.prototype.animate !== undefined);
+				var objs = [];
+				var rafId;
+				var tweenLength = 1500;
+
+				for(var i = 0; i < numElements; i++) {
+					var el = document.createElement('div');
+					elementsContainer.appendChild(el);
+					var x0 = getRandomInRange(200);
+					var x1 = getRandomInRange(200);
+
+					setDivX(el, x0);
+					objs.push({ x0: x0, x1: x1, x: x0, el: el });
+				}
+
+				jsAnimsBtn.addEventListener('click', startJSAnimations);
+
+				if(webAnimationsSupport) {
+					webAnimsBtn.addEventListener('click', startWebAnimations);
+				} else {
+					webAnimsBtn.disabled = true;
+					alert('Your browser does not support Web Animations yet.\nOnly the JavaScript example will be enabled.');
+				}
+
+
+
+				startJSAnimations();
+
+				function getRandomInRange(range) {
+					return Math.floor(range * (Math.random() - 0.5));
+				}
+
+				function setDivX(div, x) {
+					var str = 'translateX(' + x + 'px)';
+					div.style.transform = str;
+				}
+
+				function stopAnimations() {
+					cancelAnimationFrame(rafId);
+					rafId = null;
+					TWEEN.getAll().forEach((t) => t.stop());
+					TWEEN.removeAll();
+
+					if(document.getAnimations !== undefined) {
+						objs.forEach((obj) => {
+							obj.el.getAnimations()
+								.forEach((anim) => {
+									anim.cancel();
+								});
+						});
+					}
+				}
+
+				function startJSAnimations() {
+					console.log('starting js animations');
+					stopAnimations();
+
+					jsAnimsBtn.classList.add('selected');
+					webAnimsBtn.classList.remove('selected');
+
+					objs.forEach((obj) => {
+
+						obj.x = obj.x0;
+
+						new TWEEN.Tween(obj)
+							.to({ x: obj.x1 }, tweenLength)
+							.onStart(() => {
+								setDivX(obj.el, obj.x0);
+							})
+							.onUpdate(() => {
+								setDivX(obj.el, obj.x);
+							})
+							.easing(TWEEN.Easing.Quadratic.Out)
+							.repeat(Infinity)
+							.yoyo(true)
+							.start();
+
+					});
+
+					rafId = requestAnimationFrame(render);
+
+				}
+
+				function render(timestamp) {
+
+					if(rafId) {
+						requestAnimationFrame(render);
+						TWEEN.update(timestamp);
+					}
+				}
+
+				function startWebAnimations() {
+					console.log('start web animations');
+					stopAnimations();
+
+					jsAnimsBtn.classList.remove('selected');
+					webAnimsBtn.classList.add('selected');
+
+					objs.forEach((obj) => {
+						setDivX(obj.el, obj.x0);
+
+						obj.el.animate([
+							{ transform: 'translateX(' + obj.x0 + 'px)' },
+							{ transform: 'translateX(' + obj.x1 + 'px)' },
+						], { duration: tweenLength, iterations: Infinity, easing: 'ease-out', direction: 'alternate' });
+					});
+
+				}
+
+
+			};
+		</script>
+		<style>
+			body {
+				overflow: hidden;
+			}
+
+			h1 {
+				z-index: 1000;
+				position: relative;
+				background: var(--dark-shadow);
+				padding: 1em;
+				display: inline-block;
+				text-shadow: none;
+				color: var(--text-color-contrast);
+			}
+			@media (max-width: 900px) {
+				h1 {
+					font-size: 14px;
+					text-align: center;
+					display: block;
+					margin-left: auto;
+					margin-right: auto;
+					max-width: 50%;
+					line-height: 3em;
+					margin-top: 2em;
+				}
+				h1 button {
+					display: block;
+					width: 100%;
+					box-sizing: border-box;
+					border-bottom: 4px solid transparent;
+				}
+			}
+
+
+			button.selected {
+				background: var(--contrast-color-over);
+				border-bottom: 4px solid var(--highlight);
+			}
+
+			main {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 0;
+			}
+
+			#elements {
+				height: 100%;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			#elements > div {
+				width: 50%;
+				flex-grow: 1;
+				background-color: #0095DD;
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<head>
+    <title>Web Animation examples - Accessibility</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../styles.css" type="text/css">
+
+    <style>
+    .panel {
+        text-align: center;
+    }
+    .avatar-selector li {
+        list-style-type: none;
+        display: inline-block;
+    }
+    .avatar-selector ul {
+        padding-left: 0;
+        font-size: 0;
+    }
+    .avatar {
+        background: var(--contrast-color);
+        font-size: 1.2rem;
+        display: inline-block;
+        border-radius: 100%;
+        border: 0;
+        width: 50px;
+        height: 50px;
+        margin: 0 0.5em;
+        padding: 0;
+        color: var(--text-color-contrast);
+    }
+
+    .avatar.selected, .avatar:hover {
+        background: var(--contrast-color-over);
+        color: var(--text-color-contrast);
+    }
+
+    .avatar:hover {
+        cursor: pointer;
+    }
+    .avatar:disabled{
+        cursor: not-allowed;
+    }
+
+    .contact {
+        background: var(--bg-color-shadow);
+        box-sizing: border-box;
+        border-top: 8px solid var(--shadow);
+
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 100%;
+        font-size: 2em;
+    }
+
+    .contact.active {
+        z-index: 10;
+        top: 0;
+    }
+
+    .contact-display {
+        height: 200px;
+        margin-bottom: 1em;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .settings {
+        text-align: left;
+        margin-top: 2em;
+        border-top: 1px solid #ccc;
+        padding-top: 1em;
+    }
+    .settings h1 {
+        font-size: 1em;
+    }
+    </style>
+</head>
+<body>
+    <main class="constrained">
+        <h1>Accessibility settings demo</h1>
+        <p>Tweak the animations according to your needs an preferences. Some examples:</p>
+        <ul>
+            <li>Make the size variation bigger to see those elements more easily.</li>
+            <li>Disable the flash animations if you are sensitive to them.</li>
+            <li>Make the movement animation slower if you have motion sickness.</li>
+        </ul>
+
+        <article class="panel">
+            <section class="contact-display">
+                <section class="contact active" data-contact="js">Jon Snow</section>
+                <section class="contact" data-contact="dt">Daenerys Targaryen</section>
+                <section class="contact" data-contact="tl">Tyrion Lannister</section>
+            </section>
+            <nav class="avatar-selector"><ul>
+                <li><button class="avatar selected" disabled data-contact="js">JS</button></li>
+                <li><button class="avatar" data-contact="dt">DT</button></li>
+                <li><button class="avatar" data-contact="tl">TL</button></li>
+            </ul></nav>
+            <aside class="settings">
+                <h2>Accessibility options</h2>
+                <form>
+                    <p><label><input type="checkbox" checked id="settings-flash">Flash animations</label></p>
+                    <p><label>Size variation <input type="range" min="100" max="300" value="125" id="settings-size"></label></p>
+                    <p><label>Slow movement<input type="range" min="10" max="100" value="40" id="settings-speed"></label></p>
+                </form>
+            </aside>
+        </article>
+    </main>
+
+<script>
+
+// TODO: add TONS of comments to all of this
+var settingsFlashEl, settingsSizeEl, settingsSpeedEl;
+
+function scrollToContact(contactId) {
+    let oldActive = document.querySelector('.contact.active');
+    oldActive.style['z-index'] = 9;
+
+    let contact = document.querySelector(`.contact[data-contact=${contactId}]`);
+    contact.classList.add('active');
+
+    let targetSpeed = 1000 * (settingsSpeedEl.value / 100.0);
+    contact.animate({top: ['100%', '0']}, targetSpeed)
+    .addEventListener('finish', function () {
+        oldActive.classList.remove('active');
+        oldActive.style['z-index'] = '';
+        selectAvatarButton(document.querySelector(`.avatar[data-contact=${contactId}]`));
+    });
+}
+
+function flashAvatarButton(element) {
+    if (settingsFlashEl.checked) { // only play if setting is enabled
+        element.animate([
+            { background: '#00539F' },
+            { background: '#0095DD'},
+            { background: '#00539F'},
+            { background: '#0095DD'},
+            { background: '#00539F'}
+        ], 500);
+    }
+}
+
+
+function disableAvatarButtons() {
+    Array.from(document.querySelectorAll('.avatar'))
+    .forEach(function (button) {
+        button.disabled = true;
+    });
+}
+
+function selectAvatarButton(element) {
+    // disable current button and re-enable the rest
+    Array.from(document.querySelectorAll('.avatar'))
+    .forEach(function (button) {
+        button.disabled = false;
+        button.classList.remove('selected');
+    })
+    element.disabled = true;
+    element.classList.add('selected');
+}
+
+function enlargeAvatar(element) {
+    let targetScale = settingsSizeEl.value / 100.0;
+    element.style.transform = `scale(${targetScale})`;
+    element.style['z-index'] = 10;
+    element.animate({
+        transform: ['scale(1)', `scale(${targetScale})`]
+    }, 250);
+}
+
+function shrinkAvatar(element) {
+    element.style.transform = 'scale(1)';
+    element.style['z-index'] = 1;
+}
+
+window.onload = function () {
+    settingsFlashEl = document.getElementById('settings-flash');
+    settingsSizeEl = document.getElementById('settings-size');
+    settingsSpeedEl = document.getElementById('settings-speed');
+
+    Array.from(document.querySelectorAll('.avatar')).forEach(function (avatar) {
+        // play flash animation when clicking on avatars
+        avatar.addEventListener('click', function (e) {
+            e.preventDefault();
+            flashAvatarButton(avatar);
+            selectAvatarButton(avatar);
+            disableAvatarButtons();
+            scrollToContact(avatar.dataset.contact);
+        });
+    });
+
+    Array.from(document.querySelectorAll('.avatar')).forEach(function (avatar) {
+        avatar.addEventListener('mouseover', function (e) {
+            enlargeAvatar(avatar);
+        });
+        avatar.addEventListener('mouseout', function (e) {
+            shrinkAvatar(avatar);
+        });
+    });
+}
+</script>
+</body>
