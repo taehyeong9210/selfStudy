@@ -13,12 +13,19 @@
 // const arr = ["u", "u", "l", "r"];
 
 // solution(arr);
-const strArr1 = ["AAA", "BBB", "CCC", "DDD"];
+// const strArr1 = ["AAA", "BBB", "CCC", "DDD"];
 
-function solution(strArr) {
-  let Arr = strArr.map((n, index) => {
-    index % 2 === 1 ? n.toUpperCase() : n.toLowerCase();
-    console.log(Arr);
-  });
+// function solution(strArr) {
+//   let Arr = strArr.map((n, index) => {
+//     index % 2 === 1 ? n.toUpperCase() : n.toLowerCase();
+//     console.log(Arr);
+//   });
+// }
+// solution(strArr1);
+function solution(nums) {
+  const pick = new Set(nums);
+  return pick.length <= nums.length / 2 ? pick.length : nums.length / 2;
 }
-solution(strArr1);
+
+const nums = [3, 3, 3, 2, 2, 2];
+console.log(new Set(nums));
