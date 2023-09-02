@@ -22,10 +22,30 @@
 //   });
 // }
 // solution(strArr1);
-function solution(nums) {
-  const pick = new Set(nums);
-  return pick.length <= nums.length / 2 ? pick.length : nums.length / 2;
-}
+// function solution(nums) {
+//   const pick = new Set(nums);
+//   return pick.length <= nums.length / 2 ? pick.length : nums.length / 2;
+// }
 
-const nums = [3, 3, 3, 2, 2, 2];
-console.log(new Set(nums));
+// const nums = [3, 3, 3, 2, 2, 2];
+// console.log(new Set(nums));
+
+// const arr = [1, 1, 3, 3, 0, 1, 1];
+
+// console.log(Array.from(new Set(arr)));
+
+// console.log(getNumber());
+// const x = 100;
+// console.log(getNumber());
+// function getNumber() {
+//   return x;
+// }
+// console.log(getNumber());
+const $btn = document.getElementById("btn");
+const $game = document.getElementById("game");
+const $toggle = document.querySelector(".hidden");
+
+$btn.addEventListener("click", () => {
+  $game.classList.toggle("hidden");
+  $toggle.style.display = "none";
+});
