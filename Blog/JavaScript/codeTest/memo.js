@@ -41,11 +41,11 @@
 //   return x;
 // }
 // console.log(getNumber());
-const $btn = document.getElementById("btn");
-const $game = document.getElementById("game");
-const $toggle = document.querySelector(".hidden");
+// const $btn = document.getElementById('btn');
+// const $game = document.getElementById('game');
+// const $toggle = document.querySelector('.hidden');
 
-$btn.addEventListener("click", () => {
-  $game.classList.toggle("hidden");
-  $toggle.style.display = "none";
-});
+// $btn.addEventListener('click', () => {
+//     $game.classList.toggle('hidden');
+//     $toggle.style.display = 'none';
+// })
