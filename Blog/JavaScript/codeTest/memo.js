@@ -49,3 +49,9 @@
 //     $game.classList.toggle('hidden');
 //     $toggle.style.display = 'none';
 // })
+
+const absolutes = [4, 7, -12];
+const absNums = absolutes.map((num, index) => {
+  return Math.abs(num);
+});
+console.log(absNums);
