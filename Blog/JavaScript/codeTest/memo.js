@@ -50,8 +50,29 @@
 //     $toggle.style.display = 'none';
 // })
 
-const absolutes = [4, 7, -12];
-const absNums = absolutes.map((num, index) => {
-  return Math.abs(num);
-});
-console.log(absNums);
+// const absolutes = [4, 7, -12];
+// const absNums = absolutes.map((num, index) => {
+//   return Math.abs(num);
+// });
+// console.log(absNums);
+
+// function solution(numbers) {
+//   let Arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+//   let newArr = Arr.filter((n, index) => {
+//     numbers.indexOf(n) === -1;
+//   });
+//   return newArr;
+// }
+
+// let numbers = [1, 2, 3, 4, 6, 7, 8, 0];
+// solution(numbers);
+
+function solution(X, Y) {
+  const newX = X.split("");
+  const newY = Y.split("");
+  const double = newX.filter((num) => newY.includes(num));
+  console.log(double);
+}
+const X = "23563";
+const Y = "2345";
+solution(X, Y);
