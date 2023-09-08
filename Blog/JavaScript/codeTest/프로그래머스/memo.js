@@ -67,12 +67,31 @@
 // let numbers = [1, 2, 3, 4, 6, 7, 8, 0];
 // solution(numbers);
 
-function solution(X, Y) {
-  const newX = X.split("");
-  const newY = Y.split("");
-  const double = newX.filter((num) => newY.includes(num));
-  console.log(double);
+// function solution(X, Y) {
+//   const newX = X.split("");
+//   const newY = Y.split("");
+//   const double = newX.filter((num) => newY.includes(num));
+//   console.log(double);
+// }
+// const X = "23563";
+// const Y = "2345";
+// solution(X, Y);
+
+function solution(ingredient) {
+  let count = 0;
+  const burger = "1231";
+  const str = ingredient.join("");
+  const startIndex = str.indexOf(burger);
+
+  if (startIndex !== -1) {
+    const slicedString = str.substr(startIndex, 4); // 4는 burger 문자열의 길이
+    if (slicedString === burger) {
+      count++;
+    }
+  }
+
+  return count;
 }
-const X = "23563";
-const Y = "2345";
-solution(X, Y);
+
+const ingredient = [2, 1, 1, 2, 3, 1, 2, 3, 1];
+solution(ingredient);
