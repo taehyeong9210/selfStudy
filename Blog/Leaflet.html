@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS 파일 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Leaflet JavaScript 파일 -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- leaflet-search CSS 파일 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.8.0/dist/leaflet-search.min.css" />
+
+    <!-- leaflet-search JavaScript 파일 -->
+    <script src="https://unpkg.com/leaflet-search@2.8.0/dist/leaflet-search.min.js"></script>
+
+
+    <title>지도</title>
+</head>
+
+<body>
+    <div id="map" style="width: 600px; height: 400px;"></div>
+
+    <script>
+        var map = L.map('map').setView([37.5665, 126.9780], 13); // 초기 지도 중심 위치와 확대 수준을 설정합니다.
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // 검색 플러그인을 추가합니다.
+        var searchControl = new L.Control.Search({
+            position: 'topright',
+            layer: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'), // 검색 대상 레이어
+            initial: false, // 초기 상태에서 검색 결과를 숨김
+            zoom: 17, // 검색 결과로 이동할 확대 수준 설정
+        });
+
+        map.addControl(searchControl);
+
+        // 지도에 마커를 추가합니다.
+        var marker = L.marker([37.5665, 126.9780]).addTo(map);
+        marker.bindPopup("<b>안녕하세요!</b><br>서울에 오신 걸 환영합니다.").openPopup();
+    </script>
+
+
+</body>
+
+</html>
